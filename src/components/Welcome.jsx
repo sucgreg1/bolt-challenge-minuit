@@ -1,35 +1,12 @@
+import React from 'react';
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useSpring, animated } from "react-spring";
-import ParticlesBackground from "./ParticlesBackground";
+import { CyberGlitch } from './CyberGlitch';
 
 export default function Welcome({ onStartGame }) {
-  const [players, setPlayers] = useState(Array(8).fill(""));
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const titleProps = useSpring({
-    from: { opacity: 0, transform: "translateY(-50px)" },
-    to: { opacity: 1, transform: "translateY(0)" },
-    delay: 200
-  });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1
-    }
-  };
+  const [players, setPlayers] = useState(Array(8).fill(''));
+  const [showTeams, setShowTeams] = useState(false);
+  const [teams, setTeams] = useState({ team1: [], team2: [] });
 
   const handlePlayerChange = (index, value) => {
     const newPlayers = [...players];
@@ -37,113 +14,117 @@ export default function Welcome({ onStartGame }) {
     setPlayers(newPlayers);
   };
 
-  const handleNext = () => {
-    if (currentStep === 0 && players.every(p => p.trim())) {
-      setCurrentStep(1);
-    }
+  const createTeams = () => {
+    const shuffled = [...players].sort(() => Math.random() - 0.5);
+    setTeams({
+      team1: shuffled.slice(0, 4),
+      team2: shuffled.slice(4)
+    });
+    setShowTeams(true);
+  };
+
+  const startGame = () => {
+    onStartGame(teams);
   };
 
   return (
-    <div className="welcome-container">
-      <ParticlesBackground />
-      
-      <animated.h1 style={titleProps} className="title-gradient">
-        Challenge de Minuit
-      </animated.h1>
+    <div className="welcome-container cyberpunk">
+      <CyberGlitch>
+        <h1 className="title-gradient">Challenge de Minuit</h1>
+      </CyberGlitch>
 
-      <motion.div
-        className="glass-card"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        {currentStep === 0 ? (
-          <>
-            <h2 className="subtitle">Entrez les noms des joueurs</h2>
-            <div className="players-grid">
-              {players.map((player, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="input-wrapper"
-                >
-                  <input
-                    type="text"
-                    value={player}
-                    onChange={(e) => handlePlayerChange(index, e.target.value)}
-                    placeholder={`Joueur ${index + 1}`}
-                    className="input-styled"
-                  />
-                </motion.div>
-              ))}
-            </div>
-            <motion.button
-              className="button-primary"
-              onClick={handleNext}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              disabled={!players.every(p => p.trim())}
-            >
-              Suivant
-            </motion.button>
-          </>
-        ) : (
-          <TeamDisplay players={players} onStartGame={onStartGame} />
-        )}
-      </motion.div>
-    </div>
-  );
-}
-
-function TeamDisplay({ players, onStartGame }) {
-  const [teams] = useState(() => {
-    const shuffled = [...players].sort(() => Math.random() - 0.5);
-    return {
-      team1: shuffled.slice(0, 4),
-      team2: shuffled.slice(4)
-    };
-  });
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="teams-container"
-    >
-      <div className="teams-grid">
-        {["team1", "team2"].map((team, index) => (
-          <motion.div
-            key={team}
-            className="team-card glass-card"
-            initial={{ x: index === 0 ? -50 : 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: index * 0.2 }}
+      {!showTeams ? (
+        <motion.div 
+          className="players-form glass-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2>Entrez les noms des joueurs</h2>
+          {players.map((player, index) => (
+            <motion.input
+              key={index}
+              type="text"
+              value={player}
+              onChange={(e) => handlePlayerChange(index, e.target.value)}
+              placeholder={`Joueur ${index + 1}`}
+              className="input-styled"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+            />
+          ))}
+          <motion.button 
+            className="button-primary"
+            onClick={createTeams}
+            disabled={players.some(p => !p.trim())}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <h3>Équipe {index + 1}</h3>
-            <ul>
-              {teams[team].map((player, i) => (
-                <motion.li
+            Créer les équipes
+          </motion.button>
+        </motion.div>
+      ) : (
+        <motion.div 
+          className="teams-display glass-card"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div className="teams-grid">
+            <motion.div 
+              className="team"
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+            >
+              <h3>Équipe 1</h3>
+              {teams.team1.map((player, i) => (
+                <motion.p 
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
+                  transition={{ delay: i * 0.1 }}
                 >
                   {player}
-                </motion.li>
+                </motion.p>
               ))}
-            </ul>
-          </motion.div>
-        ))}
-      </div>
-      
-      <motion.button
-        className="button-primary"
-        onClick={() => onStartGame(teams)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        Commencer le jeu
-      </motion.button>
-    </motion.div>
+            </motion.div>
+            <motion.div 
+              className="team"
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+            >
+              <h3>Équipe 2</h3>
+              {teams.team2.map((player, i) => (
+                <motion.p 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  {player}
+                </motion.p>
+              ))}
+            </motion.div>
+          </div>
+          <div className="buttons-container">
+            <motion.button 
+              className="button-primary"
+              onClick={createTeams}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Mélanger
+            </motion.button>
+            <motion.button 
+              className="button-primary"
+              onClick={startGame}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Commencer le jeu
+            </motion.button>
+          </div>
+        </motion.div>
+      )}
+    </div>
   );
 }

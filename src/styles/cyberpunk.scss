@@ -1,0 +1,148 @@
+@import 'cyberpunk-variables';
+
+body {
+  background: $cyber-darker;
+  color: $neon-blue;
+  font-family: 'Orbitron', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+}
+
+.glass-card {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid $neon-pink;
+  box-shadow: 0 0 15px rgba($neon-pink, 0.3);
+  backdrop-filter: blur(10px);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $neon-pink, transparent);
+    animation: scanline 2s linear infinite;
+  }
+}
+
+.title-gradient {
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  animation: neon-pulse 2s infinite;
+  letter-spacing: 3px;
+  
+  &:hover {
+    animation: glitch 0.3s infinite;
+  }
+}
+
+.button-primary {
+  background: transparent;
+  border: 2px solid $neon-pink;
+  color: $neon-pink;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($neon-pink, 0.2),
+      transparent
+    );
+    transition: 0.5s;
+  }
+  
+  &:hover {
+    color: $cyber-darker;
+    background: $neon-pink;
+    box-shadow: 0 0 20px rgba($neon-pink, 0.5);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+}
+
+.roulette-section {
+  .wheel {
+    border: 2px solid $neon-blue;
+    box-shadow: 0 0 15px rgba($neon-blue, 0.3);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid $neon-yellow;
+      filter: drop-shadow(0 0 5px $neon-yellow);
+    }
+  }
+}
+
+.timer-container {
+  .timer-value {
+    color: $matrix-green;
+    text-shadow: 0 0 10px rgba($matrix-green, 0.7);
+  }
+}
+
+.score {
+  font-family: 'Share Tech Mono', monospace;
+  color: $neon-yellow;
+  text-shadow: 0 0 10px rgba($neon-yellow, 0.7);
+}
+
+.challenge-text {
+  border-left: 3px solid $neon-pink;
+  padding-left: 15px;
+  margin: 20px 0;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.rebus-challenge {
+  .rebus-icons {
+    text-shadow: 0 0 15px rgba($neon-blue, 0.7);
+  }
+}
+
+.mime-result {
+  border: 1px solid $neon-purple;
+  background: rgba($cyber-dark, 0.8);
+  box-shadow: 0 0 20px rgba($neon-purple, 0.3);
+}
+
+// Ajout des polices Cyberpunk
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
