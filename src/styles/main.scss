@@ -1,0 +1,55 @@
+/* ... [Previous styles remain the same] ... */
+
+.mime-challenge {
+  .roulettes-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .roulette-section {
+    text-align: center;
+    
+    h3 {
+      margin-bottom: 15px;
+      color: $accent-color;
+      font-size: 1.2rem;
+    }
+  }
+
+  .mime-result {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: $border-radius-md;
+
+    h2 {
+      color: $accent-color;
+      margin-bottom: 10px;
+    }
+
+    .challenge-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      background: $gradient-primary;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
+
+/* Responsive adjustments for roulettes */
+@media (max-width: 768px) {
+  .roulettes-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .roulette-section {
+    width: 100%;
+    max-width: 300px;
+  }
+}

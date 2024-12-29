@@ -1,0 +1,39 @@
+// Colors
+$primary-color: #FF3CAC;
+$secondary-color: #784BA0;
+$tertiary-color: #2B86C5;
+$background-dark: #1a1a1a;
+$text-light: #ffffff;
+$text-dark: #333333;
+$accent-color: #FFD700;
+
+// Gradients
+$gradient-primary: linear-gradient(225deg, $primary-color 0%, $secondary-color 50%, $tertiary-color 100%);
+$gradient-dark: linear-gradient(to bottom, rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.98));
+
+// Animations
+$transition-fast: 0.3s ease;
+$transition-medium: 0.5s ease;
+$transition-slow: 0.8s ease;
+
+// Shadows
+$shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 8px 15px rgba(0, 0, 0, 0.2);
+$shadow-hard: 0 12px 28px rgba(0, 0, 0, 0.3);
+
+// Border Radius
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 20px;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Typography
+$font-primary: 'Montserrat', sans-serif;
+$font-secondary: 'Poppins', sans-serif;
+$font-size-base: 16px;
